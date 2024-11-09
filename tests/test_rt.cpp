@@ -44,13 +44,20 @@ TEST(TestRangeTree, TestSet) {
     rt::range_tree<int, std::plus<int>> tree(vec);
     tree.set(0, 7);
     std::vector<int> expected = {27, 16, 11, 9, 7, 11, 0, 7, 2, 3, 4, 5, 6, 0, 0};
+    int expected_sum = 14;
+
     EXPECT_EQ(expected, tree.as_vector());
+    EXPECT_EQ(expected_sum, tree.accumulate(1, 4));
 }
 
 TEST(TestRangeTree, TestMinimal) {
     std::vector<int> vec{-1, 10, 3, 9, 0, 99, -5};
     constexpr int inf = std::numeric_limits<int>::max();
     rt::range_tree<int, minimal<int>, inf> tree(vec);
-    std::vector<int> expected = {-5, -1, -5, -1, 3, 0, -5, -1, 10, 3, 9, 0, 99, -5, 2147483647};
-    EXPECT_EQ(expected, tree.as_vector());
+    std::vector<int> expected_tree = {-5, -1, -5, -1, 3, 0, -5, -1, 10, 3, 9, 0, 99, -5, 2147483647};
+    int expected_min = 3;
+
+    EXPECT_EQ(expected_tree, tree.as_vector());
+    EXPECT_EQ(expected_min, tree.accumulate(1, 3));
 }
+
